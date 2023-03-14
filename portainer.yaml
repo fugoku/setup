@@ -5,6 +5,8 @@ services:
     image: portainer/portainer-ce:latest
     container_name: portainer
     restart: always
+    labels:
+      - "traefik.http.routers.portainer.rule=Host(`portainer.fugoku.com`)"
     ports:
       - "8000:8000"
       - "9443:9443"
