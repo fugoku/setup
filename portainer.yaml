@@ -1,18 +1,30 @@
-version: '3'
+version: "3.9"
 
 services:
   portainer:
-    image: portainer/portainer-ce:latest
+    image: portainer/portainer-ee:latest
     container_name: portainer
     restart: always
-    labels:
-      - "traefik.http.routers.portainer.rule=Host(`portainer.fugoku.com`)"
-    ports:
-      - "8000:8000"
-      - "9443:9443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.80-fugoku-cloud-uww36jvb5sy.ws-eu90.gitpod.io`)"
+      - "traefik.http.routers.portainer.tls=true"
+      - "traefik.http.routers.portainer.tls.certresolver=letsencrypt"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9433"
+      - "traefik.http.services.portainer.loadbalancer.passhostheader=true"
+      - "traefik.docker.network=coolify-infra"
+    ports:
+      - "9433:9433"
+      - "9009:9000"
+    networks:
+      - coolify-infra
+
+networks:
+  coolify-infra:
+    external: true
 
 volumes:
   portainer_data:
