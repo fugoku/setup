@@ -10,15 +10,15 @@ services:
       - portainer_data:/data
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.portainer.rule=Host(`portainer.fugoku.com`) && PathPrefix(`/`)"
-      # - "traefik.http.routers.portainer.tls=true"
-      # - "traefik.http.routers.portainer.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.portainer.service=portainer"
-      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.fugoku.com`)"
+      - "traefik.http.routers.portainer.tls=true"
+      - "traefik.http.routers.portainer.tls.certresolver=letsencrypt"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9433"
+      - "traefik.http.services.portainer.loadbalancer.passhostheader=true"
       - "traefik.docker.network=coolify-infra"
-    # ports:
-    #   - "9433:9433"
-    #   - "9009:9000"
+    ports:
+      - "9433:9433"
+      - "9009:9000"
     networks:
       - coolify-infra
 
@@ -28,4 +28,3 @@ networks:
 
 volumes:
   portainer_data:
-
