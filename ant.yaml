@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  antmedia:
+    image: docker.io/fugoku/ant:v1
+    # build: 
+    #   context: ./
+    #   dockerfile: ./Dockerfile
+    container_name: antmedia
+    restart: unless-stopped
+    entrypoint: /usr/local/antmedia/start.sh
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.fugoku.com`) && PathPrefix(`/`)"
+      - "traefik.http.routers.portainer.service=portainer"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9999"
+      - "traefik.docker.network=coolify-infra"
+    # network_mode: host
+    # ports:
+    #   - "5080:5080"
+    #   - "9999:9999"
+    #   - "45891:45891"
+    #   - "1935:1935"
+
+
+    
+#   volumes:
+#      - antmedia_vol:/usr/local/antmedia/
+#volumes:
+#  antmedia_vol:
+#    external: true
+#    name:
+#      antmedia_volume
